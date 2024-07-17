@@ -8,6 +8,10 @@ type FormValues = {
   username: string;
   email: string;
   channel: string;
+  social: {
+    twitter: string;
+    facebook: string;
+  };
 };
 
 const Formulario1: React.FC = () => {
@@ -16,8 +20,25 @@ const Formulario1: React.FC = () => {
       username: "",
       email: "",
       channel: "",
+      social: {
+        twitter: "",
+        facebook: "",
+      },
     },
     mode: "onBlur", // ou "onChange"
+
+    //ou pode testar com uma chamada da api direto
+    // defaultValues: async () => {
+    //   const response = await fetch(
+    //     "https://jsonplaceholder.typicode.com/users/1"
+    //   );
+    //   const data = await response.json();
+    //   return {
+    //     username: "",
+    //     email: data.email,
+    //     channel: "",
+    //   };
+    // },
   });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
@@ -107,6 +128,24 @@ const Formulario1: React.FC = () => {
             />
           </div>
           <p className="text-red-500">{errors.channel?.message}</p>
+          <div className="mb-6">
+            <label className="block text-sm font-bold mb-2" htmlFor="twitter">
+              Twitter
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="twitter"
+              type="text"
+              placeholder="twitter"
+              {...register("social.twitter", {
+                required: {
+                  value: true,
+                  message: "Add uma conta do twitter",
+                },
+              })}
+            />
+          </div>
+          <p className="text-red-500">{errors.social?.twitter?.message}</p>
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
