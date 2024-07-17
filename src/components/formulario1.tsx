@@ -11,7 +11,14 @@ type FormValues = {
 };
 
 const Formulario1: React.FC = () => {
-  const form = useForm<FormValues>();
+  const form = useForm<FormValues>({
+    defaultValues: {
+      username: "",
+      email: "",
+      channel: "",
+    },
+    mode: "onBlur", // ou "onChange"
+  });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
   //   const { name, ref, onChange, onBlur } = register("username");
