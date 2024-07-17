@@ -12,6 +12,7 @@ type FormValues = {
     twitter: string;
     facebook: string;
   };
+  phoneNumbers: string[];
 };
 
 const Formulario1: React.FC = () => {
@@ -24,6 +25,7 @@ const Formulario1: React.FC = () => {
         twitter: "",
         facebook: "",
       },
+      phoneNumbers: ["", ""],
     },
     mode: "onBlur", // ou "onChange"
 
@@ -128,6 +130,7 @@ const Formulario1: React.FC = () => {
             />
           </div>
           <p className="text-red-500">{errors.channel?.message}</p>
+          {/* fazer o mesmo com o facebook se precisar de mais campos  */}
           <div className="mb-6">
             <label className="block text-sm font-bold mb-2" htmlFor="twitter">
               Twitter
@@ -146,6 +149,41 @@ const Formulario1: React.FC = () => {
             />
           </div>
           <p className="text-red-500">{errors.social?.twitter?.message}</p>
+
+          <div className="mb-6">
+            <label
+              className="block text-sm font-bold mb-2"
+              htmlFor="primary-phone"
+            >
+              Primary-phone-number
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="primary-phone"
+              type="text"
+              placeholder="primary-phone"
+              {...register("phoneNumbers.0")}
+            />
+          </div>
+          <p className="text-red-500">{errors.phoneNumbers?.message}</p>
+
+          <div className="mb-6">
+            <label
+              className="block text-sm font-bold mb-2"
+              htmlFor="primary-phone"
+            >
+              Primary-phone-number
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="primary-phone"
+              type="text"
+              placeholder="secondary-phone"
+              {...register("phoneNumbers.1")}
+            />
+          </div>
+          <p className="text-red-500">{errors.phoneNumbers?.message}</p>
+
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
