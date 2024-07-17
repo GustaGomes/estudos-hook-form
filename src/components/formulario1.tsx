@@ -63,6 +63,20 @@ const Formulario1: React.FC = () => {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: "Email invalido",
                 },
+                validate: {
+                  notAdmin: (fieldValue) => {
+                    return (
+                      fieldValue !== "admin@example.com" ||
+                      "Usar um email diferente"
+                    );
+                  },
+                  noBlackListed: (fieldValue) => {
+                    return (
+                      !fieldValue.endsWith("testDominio.com") ||
+                      "Dominio invalido"
+                    );
+                  },
+                },
               })}
             />
           </div>
