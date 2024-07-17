@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 let contadorPerform = 0;
@@ -13,6 +13,9 @@ type FormValues = {
     facebook: string;
   };
   phoneNumbers: string[];
+  phNumbers: {
+    number: string;
+  }[];
 };
 
 const Formulario1: React.FC = () => {
@@ -26,6 +29,11 @@ const Formulario1: React.FC = () => {
         facebook: "",
       },
       phoneNumbers: ["", ""],
+      phNumbers: [
+        {
+          number: "",
+        },
+      ],
     },
     mode: "onBlur", // ou "onChange"
 
@@ -44,6 +52,11 @@ const Formulario1: React.FC = () => {
   });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phNumbers",
+    control,
+  });
   //   const { name, ref, onChange, onBlur } = register("username");
   //   posso usar assim por desestruturação ou ....
 
@@ -181,6 +194,37 @@ const Formulario1: React.FC = () => {
               placeholder="secondary-phone"
               {...register("phoneNumbers.1")}
             />
+          </div>
+          <p className="text-red-500">{errors.phoneNumbers?.message}</p>
+
+          {/* Aqui pra baixo pode colocar uma lista de fones */}
+          <div className="mb-6">
+            <label className="block text-sm font-bold mb-2" htmlFor="">
+              List Phones
+            </label>
+
+            {fields.map((field, index) => {
+              return (
+                <>
+                  <input
+                    key={field.id}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="primary-phone"
+                    type="text"
+                    placeholder="secondary-phone"
+                    {...register(`phNumbers.${index}.number` as const)}
+                  />
+                  {index > 0 && (
+                    <button type="button" onClick={() => remove(index)}>
+                      Remove phone number
+                    </button>
+                  )}
+                </>
+              );
+            })}
+            <button type="button" onClick={() => append({ number: "" })}>
+              Add phone number
+            </button>
           </div>
           <p className="text-red-500">{errors.phoneNumbers?.message}</p>
 
