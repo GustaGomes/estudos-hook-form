@@ -16,6 +16,8 @@ type FormValues = {
   phNumbers: {
     number: string;
   }[];
+  age?: number;
+  dob?: Date;
 };
 
 const Formulario1: React.FC = () => {
@@ -34,6 +36,8 @@ const Formulario1: React.FC = () => {
           number: "",
         },
       ],
+      age: 0,
+      dob: new Date(),
     },
     mode: "onBlur", // ou "onChange"
 
@@ -227,6 +231,48 @@ const Formulario1: React.FC = () => {
             </button>
           </div>
           <p className="text-red-500">{errors.phoneNumbers?.message}</p>
+
+          <div className="mb-6">
+            <label className="block text-sm font-bold mb-2" htmlFor="age">
+              Age
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="age"
+              type="number"
+              placeholder="Age"
+              {...register("age", {
+                valueAsNumber: true,
+                // aqui eu vou garantir que vai chegar um number ( normalmente é passado como string)
+                required: {
+                  value: true,
+                  message: "Precisa informar idade",
+                },
+              })}
+            />
+          </div>
+          <p className="text-red-500">{errors.age?.message}</p>
+
+          <div className="mb-6">
+            <label className="block text-sm font-bold mb-2" htmlFor="dob">
+              Data de Nascimento
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="dob"
+              type="date"
+              placeholder="Data de Nascimento"
+              {...register("dob", {
+                valueAsDate: true,
+                // garantir que vai chegar um date com o formato correto ( normalmente é passado como string)
+                required: {
+                  value: true,
+                  message: "Precisa informar data de nascimento",
+                },
+              })}
+            />
+          </div>
+          <p className="text-red-500">{errors.dob?.message}</p>
 
           <div className="flex items-center justify-between">
             <button
