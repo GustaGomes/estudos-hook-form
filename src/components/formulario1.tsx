@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
@@ -54,7 +54,7 @@ const Formulario1: React.FC = () => {
     //   };
     // },
   });
-  const { register, control, handleSubmit, formState } = form;
+  const { register, control, handleSubmit, formState, watch } = form;
   const { errors } = formState;
 
   const { fields, append, remove } = useFieldArray({
@@ -68,11 +68,29 @@ const Formulario1: React.FC = () => {
     console.log("Click no botão", data);
   };
 
+  //   Assim pode ver o comportamento de um campo .
+  //   const watchUsername = watch("username");
+
+  //   Assim pode ver o comportamento de varios campos .
+  //   const watchUsername = watch(["username", "email"]);
+
+  //   Usando ele dentro do useEffect você tem uma melhora na performance,
+  //  por não precisar fazer o componente iniciar o ciclo a cada atualização do campo
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log(value);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   contadorPerform++;
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-xs">
         <p>Exemplo de performance ({contadorPerform / 2})</p>
+        {/* <p> Watch UserName {watchUsername}</p> */}
         <form
           noValidate
           onSubmit={handleSubmit(onSubmit)}
